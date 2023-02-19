@@ -1,0 +1,9 @@
+Django>=4.1.2,<4.2
+uWSGI>=2.0.21,<2.1
+djangorestframework>=3.14.0,<3.15
+django-mathfilters>=1.0.0,<1.1
+django-cors-headers>=3.13.0,<3.14
+stripe>=5.1.0,<5.2
+Pillow>=9.3.0,<9.4
+
+#('auth', '0012_alter_user_first_name_max_length')
