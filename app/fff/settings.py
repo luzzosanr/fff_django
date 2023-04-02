@@ -141,27 +141,30 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # CORS settings for api connexion
 CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOW_ALL_ORIGINS = True
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:4200',
-]
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:4200',
-]
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    'http://localhost:4200',
-]
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:4200',
-]
+
+TRUSTED_ORIGINS = os.environ.get('TRUSTED_ORIGINS')
+CORS_ORIGIN_WHITELIST = TRUSTED_ORIGINS.split(',')
+CORS_ALLOWED_ORIGINS = TRUSTED_ORIGINS.split(',')
+CORS_ALLOWED_ORIGIN_REGEXES = TRUSTED_ORIGINS.split(',')
+CSRF_TRUSTED_ORIGINS = TRUSTED_ORIGINS.split(',')
+
+if DEBUG:
+    DEBUG_TRUSTED_ORIGINS = os.environ.get('DEBUG_TRUSTED_ORIGINS')
+    CORS_ORIGIN_WHITELIST.extend(DEBUG_TRUSTED_ORIGINS.split(','))
+    CORS_ALLOWED_ORIGINS.extend(DEBUG_TRUSTED_ORIGINS.split(','))
+    CORS_ALLOWED_ORIGIN_REGEXES.extend(DEBUG_TRUSTED_ORIGINS.split(','))
+    CSRF_TRUSTED_ORIGINS.extend(DEBUG_TRUSTED_ORIGINS.split(','))
+
+
+    
 
 # Not used with Docker
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = BASE_DIR / 'media'
 
 # Docker settings
-STATIC_URL = '/static/static/'
-MEDIA_URL = '/static/media/'
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 STATIC_ROOT = '/vol/web/static'
 MEDIA_ROOT = '/vol/web/media'

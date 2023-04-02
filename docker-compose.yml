@@ -12,5 +12,4 @@ services:
     env_file:
       - .env
     environment:
-      - ALLOWED_HOSTS=127.0.0.1,localhost
       - DEBUG=1
