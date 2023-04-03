@@ -6,6 +6,7 @@ services:
       context: .
     volumes:
       - static_data:/vol/web
+      - ./app/media:/app/media
     env_file:
       - .env
     environment:
@@ -16,6 +17,7 @@ services:
       context: ./proxy
     volumes:
       - static_data:/vol/static
+      - ./app/media:/app/media
     ports:
       - "8080:8080"
     depends_on:
