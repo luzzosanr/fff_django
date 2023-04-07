@@ -148,19 +148,12 @@ CORS_ALLOWED_ORIGINS = TRUSTED_ORIGINS.split(',')
 CORS_ALLOWED_ORIGIN_REGEXES = TRUSTED_ORIGINS.split(',')
 CSRF_TRUSTED_ORIGINS = TRUSTED_ORIGINS.split(',')
 
-if DEBUG:
-    DEBUG_TRUSTED_ORIGINS = os.environ.get('DEBUG_TRUSTED_ORIGINS')
+DEBUG_TRUSTED_ORIGINS = os.environ.get('DEBUG_TRUSTED_ORIGINS')
+if DEBUG and DEBUG_TRUSTED_ORIGINS is not None:
     CORS_ORIGIN_WHITELIST.extend(DEBUG_TRUSTED_ORIGINS.split(','))
     CORS_ALLOWED_ORIGINS.extend(DEBUG_TRUSTED_ORIGINS.split(','))
     CORS_ALLOWED_ORIGIN_REGEXES.extend(DEBUG_TRUSTED_ORIGINS.split(','))
     CSRF_TRUSTED_ORIGINS.extend(DEBUG_TRUSTED_ORIGINS.split(','))
-
-
-    
-
-# Not used with Docker
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = BASE_DIR / 'media'
 
 # Docker settings
 STATIC_URL = '/static/'
@@ -168,3 +161,6 @@ MEDIA_URL = '/media/'
 
 STATIC_ROOT = '/vol/web/static'
 MEDIA_ROOT = '/media'
+
+if os.environ.get('NOT_DOCKER'):
+    MEDIA_ROOT = BASE_DIR / 'media'
