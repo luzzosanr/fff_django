@@ -1,7 +1,10 @@
+import logging
 from accounts.models import verif_and_register, ShopperProfile
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+
+logger = logging.getLogger(__name__)
 
 @api_view(['GET'])
 def is_logged(request):
@@ -33,10 +36,14 @@ def login_user(request):
     
     username = request.data.get('username')
     password = request.data.get('password')
+    logger.debug(f"Authenticating {username}")
     user = authenticate(request, username = username, password = password)
+    logger.debug(f"User {user} authenticated")
     
     if user and user.role == request.data.get('user_type'):
+        logger.debug(f"Logging in {user} as {user.role}")
         login(request, user)
+        logger.debug(f"User {user} logged in as {user.role}")
         return Response({'status': 'success'})
     else:
         return Response({'status': 'wrong credentials'})
@@ -49,7 +56,9 @@ def register(request):
     created, res, user = verif_and_register(email = request.data.get('username'), password = request.data.get('password'), type = request.data.get('user_type'))
     
     if created:
+        logger.debug(f"Logging in {user} as {user.role}")
         login(request, user)
+        logger.debug(f"User {user} logged in as {user.role}")
     
     return Response(res)
 
