@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django")
 
 @api_view(['GET'])
 def is_logged(request):

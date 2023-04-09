@@ -172,7 +172,7 @@ LOGGING = {
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": "app/debug.log",
+            "filename": "logs/debug.log",
         },
         "console": {
             "class": "logging.StreamHandler",
@@ -184,9 +184,5 @@ LOGGING = {
             "level": "DEBUG",
             "propagate": True,
         },
-    },
-    "root": {
-        "handlers": ["console"],
-        "level": "DEBUG",
-    },
+    }
 }
