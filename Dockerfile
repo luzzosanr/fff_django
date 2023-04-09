@@ -18,6 +18,8 @@ RUN mkdir -p /vol/web/static
 RUN adduser -D user
 RUN chown -R user:user /vol
 RUN chmod -R 755 /vol/web
+RUN chown -R user:user /logs
+RUN chmod -R 755 /logs
 USER user
 
 CMD ["entrypoint.sh"]
