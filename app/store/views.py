@@ -60,7 +60,7 @@ def change_cart_quantity(request):
     brand = get_object_or_404(BrandUserProfile, name = request.data.get('brand'))
     product = get_object_or_404(Product, slug = request.data.get('slug'), brand = brand, is_available = True)
     product.change_quantity(request.user.profile, request.data.get('quantity'))
-    return Response({"message": "success"})
+    return Response({"status": "success"})
 
 @api_view(['GET'])
 def cart(request):

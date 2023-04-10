@@ -18,7 +18,7 @@ def is_logged(request):
 def logout_user(request):
     if request.user.is_authenticated:
         logout(request)
-        return Response({'status': 'logged out'})
+        return Response({'status': 'success'})
     else:
         return Response({'status': 'not logged'})
 
