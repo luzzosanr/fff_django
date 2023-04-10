@@ -56,6 +56,8 @@ def register(request):
     created, res, user = verif_and_register(email = request.data.get('username'), password = request.data.get('password'), type = request.data.get('user_type'))
     
     if created:
+        if request.user.is_authenticated:
+            logout(request)
         logger.debug(f"Logging in {user} as {user.role}")
         login(request, user)
         logger.debug(f"User {user} logged in as {user.role}")
