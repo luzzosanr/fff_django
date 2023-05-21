@@ -2,4 +2,4 @@
 app/env
 *.bat
 *.log
-**/__pycache__/
+__pycache__/
