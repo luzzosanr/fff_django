@@ -25,9 +25,12 @@ class User(AbstractBaseUser):
         ADMIN = 'ADMIN', 'Admin'
     
     role = models.CharField(max_length=10, choices=Type.choices, default=Type.SHOPPER)
-    email = models.EmailField(max_length=255, unique=True)
-    USERNAME_FIELD = 'email'
+    email = models.EmailField(max_length=255)
+    username = models.CharField(max_length=265, unique=True)
+    USERNAME_FIELD = 'username'
     
+    class Meta:
+        unique_together = ('email', 'role')
     
     objects = CustomManager()
     
@@ -44,6 +47,8 @@ class User(AbstractBaseUser):
             return profiles[0]
         return None
     
+def get_username(email, role):
+    return f"{email}_{role}"
     
 class ShopperProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -64,7 +69,7 @@ def verif_and_register(email, password, type):
         return (False, {"status": "invalid", "field": "password", "message": "too short"}, None)
     
     if type == 'SHOPPER' and not User.objects.filter(email = email, role = "SHOPPER").exists():
-        user = User.objects.create_user(email = email, password = password, role = "SHOPPER")
+        user = User.objects.create_user(email = email, password = password, role = "SHOPPER", username=get_username(email, "SHOPPER"))
         ShopperProfile.objects.create(user = user)
         return (True, {"status": "success", "type": "shopper"}, user)
     if type == 'SHOPPER':
@@ -74,7 +79,7 @@ def verif_and_register(email, password, type):
         return (False, {"status": "invalid", "field": "password", "message": "too short"}, None)
     
     if not User.objects.filter(email = email, role = "BRAND").exists():
-        user = User.objects.create_user(email = email, password = password, role = "BRAND")
+        user = User.objects.create_user(email = email, password = password, role = "BRAND", username=get_username(email, "BRAND"))
         BrandUserProfile.objects.create(user = user)
         return (True, {"status": "success", "type": "brand"}, user)
     

@@ -1,5 +1,5 @@
 import logging
-from accounts.models import verif_and_register, ShopperProfile
+from accounts.models import verif_and_register, ShopperProfile, get_username
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -37,7 +37,7 @@ def login_user(request):
     username = request.data.get('username')
     password = request.data.get('password')
     logger.debug(f"Authenticating {username}")
-    user = authenticate(request, username = username, password = password)
+    user = authenticate(request, username = get_username(username, request.data.get('user_type')), password = password)
     logger.debug(f"User {user} authenticated")
     
     if user and user.role == request.data.get('user_type'):
