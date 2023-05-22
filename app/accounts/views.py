@@ -51,7 +51,7 @@ def login_user(request):
 @api_view(['POST'])
 def register(request):
     if request.user.is_authenticated:
-        return Response({'status': 'already logged'})
+        return Response({'status': 'already logged', 'type': request.user.role})
     
     created, res, user = verif_and_register(email = request.data.get('username'), password = request.data.get('password'), type = request.data.get('user_type'))
     
